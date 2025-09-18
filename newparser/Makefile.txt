@@ -1,0 +1,9 @@
+TOOL=nf
+
+all:
+	cabal build
+	cp `cabal list-bin $(TOOL)` .
+
+clean:
+	cabal clean
+	rm -f *.hi *.o $(TOOL) 

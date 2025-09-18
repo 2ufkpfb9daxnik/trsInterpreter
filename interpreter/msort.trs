@@ -1,0 +1,28 @@
+(VAR w x y xs ys zs)
+(RULES
+append(nil,         ys) -> ys
+append(cons(x, xs), ys) -> cons(x, append(xs, ys))
+
+leq(0,    y)    -> true
+leq(s(x), 0)    -> false
+leq(s(x), s(y)) -> leq(x, y)
+
+split(nil)                    -> pair(nil, nil)
+split(cons(x, nil))           -> pair(cons(x, nil), nil)
+split(cons(x, cons(y, zs)))   -> split_aux(x, y, split(zs))
+split_aux(x, y, pair(xs, ys)) -> pair(cons(x, xs), cons(y, ys))
+
+merge(nil, nil)                 -> nil
+merge(xs, nil)                  -> xs
+merge(nil, ys)                  -> ys
+merge(cons(x, xs), cons(y, ys)) -> if_merge(leq(x, y), cons(x, xs), cons(y, ys))
+if_merge(true, cons(x, xs), cons(y, ys))  -> cons(x, merge(xs, cons(y, ys)))
+if_merge(false, cons(x, xs), cons(y, ys)) -> cons(y, merge(cons(x, xs), ys))
+
+msort(nil)          -> nil
+msort(cons(x, nil)) -> cons(x, nil)
+msort(xs)           -> msort_aux(split(xs))
+msort_aux(pair(ys, zs)) -> merge(msort(ys), msort(zs))
+
+main -> msort(cons(s(s(0)),cons(0,cons(s(s(s(s(0)))),cons(s(0),cons(s(s(s(0))),nil))))))
+)

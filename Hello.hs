@@ -1,0 +1,3 @@
+-- Hello.hs
+main :: IO ()
+main = putStr "Hello, World\n"
